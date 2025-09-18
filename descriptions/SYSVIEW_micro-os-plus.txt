@@ -1,0 +1,180 @@
+# -----------------------------------------------------------------------------
+#
+# This file is part of the µOS++ project (https://micro-os-plus.github.io/).
+# Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+#
+# Permission to use, copy, modify, and/or distribute this software
+# for any purpose is hereby granted, under the terms of the MIT license.
+#
+# If a copy of the license was not distributed with this file, it can
+# be obtained from https://opensource.org/licenses/mit.
+#
+# -----------------------------------------------------------------------------
+
+# File    : SYSVIEW_micro-os-plus.txt
+# Purpose : µOS++ description file for SEGGER SystemView.
+#           Please copy this file to your SystemView installation folder,
+#           e.g. c:\Program Files\SEGGER\SystemView_Vnnn\Description\ or
+#           e.g. /Applications/SEGGER/SystemView_Vnnn/Description/ on macOS.
+
+# -----------------------------------------------------------------------------
+# Task States (reasons whe the thread was suspended).
+
+TaskState 0xFF 0=Undefined, 1=Switched Out, 2=Waiting for Clock, 3=Waiting for Thread Flags, 4=Waiting for Semaphore, 5=Waiting for Mutex, 6=Waiting for MQueue Send, 7=Waiting for MQueue Receive, 8=Waiting for MemPool, 9=Waiting for Event Flags, 10=Wait to Join, 11=Suspended by User
+
+# -----------------------------------------------------------------------------
+# NamedTypes
+
+NamedType os_mutex_type 0=normal 1=errorcheck 2=recursive
+NamedType os_protocol_type 0=none 1=inherit 2=protect
+NamedType os_robustness_type 0=stalled 1=robust
+NamedType os_mode_type 1=all 2=any 4=clear 5="all+clear" 6="any+clear"
+NamedType os_timer_type 0=once 1=periodic
+NamedType os_scheduler_lock 0=unlocked 1=locked
+NamedType os_scheduler_preemptive 0=cooperative 1=preemptive
+
+# These are the values retuned when compiling with arm-none-eabi-gcc.
+NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVERABLE 116=ETIMEDOUT *=%u
+
+# -----------------------------------------------------------------------------
+# API Functions (>32)
+
+33  exit()  returns %u
+// 34-41 reserved
+
+42 scheduler::lock() Lock -> %os_scheduler_lock
+43 scheduler::unlock() Unlock -> %os_scheduler_lock
+44 scheduler::locked() Locked Set -> %os_scheduler_lock
+45 scheduler::reschedule()
+46 scheduler::preemptive_set() Preemptive Set -> %os_scheduler_preemptive
+
+47 thread::thread() %I Construct
+48 thread::~thread() %I Destroy
+49 this_thread::yield() %I Yield
+50 this_thread::suspend() %I Suspend
+51 thread::resume() %I Resume
+52 thread::priority() %I Priority Set prio = %u | Returns %result_type
+53 thread::priority_inherited() %I Priority Inherited Set prio = %u | Returns %result_type
+54 thread::detach() %I Detach | Returns %result_type
+55 thread::join() %I Join | Returns %result_type
+56 thread::cancel() %I Cancel | Returns %result_type
+57 thread::interrupt() %I Interrupt | Returns %result_type
+58 thread::kill() %I Kill | Returns %result_type
+59 thread::internal_exit() %I Exit %p
+
+60 this_thread::flags_wait() %I Wait, mask = 0x%08X, mode = %os_mode_type | Returns %result_type
+260 this_thread::flags_wait() %I Wait -> flags = 0x%08X
+61 this_thread::flags_try_wait() %I Try Wait, mask = 0x%08X, mode = %os_mode_type | Returns %result_type
+261 this_thread::flags_try_wait() %I Try Wait -> flags = 0x%08X
+62 this_thread::flags_timed_wait() %I Timed Wait, mask = 0x%08X, timeout = %u, mode = %os_mode_type | Returns %result_type
+262 this_thread::flags_timed_wait() %I Timed Wait -> flags = 0x%08X
+63 thread::flags_raise() %I Raise, mask = 0x%08X | Returns %result_type
+263 thread::flags_raise() %I Raise -> flags = 0x%08X
+64 thread::flags_clear() %I Clear, mask = 0x%08X | Returns %result_type
+264 thread::flags_clear() %I Clear -> flags = 0x%08X
+
+65  mutex::mutex() %I Construct type = %os_mutex_type, protocol = %os_protocol_type, robustness = %os_robustness_type
+66  mutex::~mutex() %I Destroy
+67  mutex::lock() %I Lock | Returns %result_type
+267  mutex::lock() %I Lock -> prio ceiling = %u
+68  mutex::try_lock() %I Try Lock | Returns %result_type
+268  mutex::try_lock() %I Try Lock -> prio ceiling = %u
+69  mutex::timed_lock() %I Try Lock, timeout = %u | Returns %result_type
+269  mutex::timed_lock() %I Try Lock -> prio ceiling = %u
+70  mutex::unlock() %I Unlock | Returns %result_type
+270  mutex::unlock() %I Unlock -> prio ceiling = %u
+71  mutex::reset() %I Reset | Returns %result_type
+271  mutex::reset() %I Reset -> prio ceiling = %u
+72  mutex::prio_ceiling() %I Priority Ceiling Set %u | Returns %result_type
+272  mutex::prio_ceiling() %I Priority Ceiling Set -> prio ceiling = %u
+
+73  semaphore::semaphore() %I Construct, max = %u, initial count = %u
+74  semaphore::~semaphore() %I Destroy
+274  semaphore::~semaphore() %I Destroy -> count = %u
+75  semaphore::post() %I Post | Returns %result_type
+275  semaphore::post() %I Post -> count = %u
+76  semaphore::wait() %I Wait | Returns %result_type
+276  semaphore::wait() %I Wait -> count = %u
+77  semaphore::try_wait() %I Try Wait | Returns %result_type
+277  semaphore::try_wait() %I Try Wait -> count = %u
+78  semaphore::timed_wait() %I Timed Wait, timeout = %u | Returns %result_type
+278  semaphore::timed_wait() %I Timed Wait -> count = %u
+79  semaphore::reset() %I Reset | Returns %result_type
+279  semaphore::reset() %I Reset -> count = %u
+
+80 message_queue::message_queue() %I Construct, capacity = %u, nbytes = %u
+81 message_queue::~message_queue() %I Destroy
+281 message_queue::~message_queue() %I Destroy -> length = %u
+82 message_queue::send() %I Send, nbytes = %u, prio = %u | Returns %result_type
+282 message_queue::send() %I Send -> length = %u
+83 message_queue::try_send() %I Try Send, nbytes = %u, prio = %u | Returns %result_type
+283 message_queue::try_send() %I Try Send -> length = %u
+84 message_queue::timed_send() %I Timed Send, nbytes = %u, timeout = %u, prio = %u | Returns %result_type
+284 message_queue::timed_send() %I Timed Send -> length = %u
+85 message_queue::receive() %I Receive, nbytes = %u | Returns %result_type
+285 message_queue::receive() %I Receive -> length = %u
+86 message_queue::try_receive() %I Try Receive, nbytes = %u | Returns %result_type
+286 message_queue::try_receive() %I Try Receive -> length = %u
+87 message_queue::timed_receive() %I Timed Receive, nbytes = %u, timeout = %u | Returns %result_type
+287 message_queue::timed_receive() %I Timed Receive -> length = %u
+88 message_queue::reset() %I Reset | Returns %result_type
+288 message_queue::reset() %I Reset -> length = %u
+89 message_queue_allocated::message_queue_allocated() %I Construct, capacity = %u, nbytes = %u
+90 message_queue_allocated::~message_queue_allocated() %I Destroy
+290 message_queue_allocated::~message_queue_allocated() %I Destroy -> length = %u
+91 message_queue_inclusive::message_queue_inclusive() %I Construct, capacity = %u, nbytes = %u
+
+92 memory_pool::memory_pool() %I Construct, capacity = %u, block size = %u
+93 memory_pool:~memory_pool() %I Destroy
+293 memory_pool:~memory_pool() %I Destroy -> count = %u
+94 memory_pool::alloc() %I Alloc | Returns %p
+294 memory_pool::alloc() %I Alloc -> count = %u
+95 memory_pool::try_alloc() %I Try Alloc | Returns %p
+295 memory_pool::try_alloc() %I Try Alloc -> count = %u
+96 memory_pool::timed_alloc() %I Timed Alloc, timeout = %u | Returns %p
+296 memory_pool::timed_alloc() %I Timed Alloc -> count = %u
+97 memory_pool::free() %I Free, block = %p | Returns %result_type
+297 memory_pool::free() %I Free -> count = %u
+98 memory_pool::reset() %I Reset | Returns %result_type
+298 memory_pool::reset() %I Reset -> count = %u
+99 memory_pool_allocated::memory_pool_allocated() %I Construct, capacity = %u, block size = %u
+100 memory_pool_allocated:~memory_pool_allocated() %I Destroy
+300 memory_pool_allocated:~memory_pool_allocated() %I Destroy -> count = %u
+101 memory_pool_inclusive::memory_pool_inclusive() %I Construct, capacity = %u, block size = %u
+
+102 event_flags::event_flags() %I Construct
+103 event_flags:~event_flags() %I Destroy
+303 event_flags:~event_flags() %I Destroy -> flags = 0x%08X
+104 event_flags::wait() %I Wait, mask = 0x%08X, mode = %os_mode_type | Returns %result_type
+304 event_flags::wait() %I Wait -> flags = 0x%08X
+105 event_flags::try_wait() %I Try Wait, mask = 0x%08X, mode = %os_mode_type | Returns %result_type
+305 event_flags::try_wait() %I Try Wait -> flags = 0x%08X
+106 event_flags::timed_wait() %I Timed Wait, mask = 0x%08X, timeout = %u, mode = %os_mode_type | Returns %result_type
+306 event_flags::timed_wait() %I Timed Wait -> flags = 0x%08X
+107 event_flags::raise() %I Raise, mask = 0x%08X | Returns %result_type
+307 event_flags::raise() %I Raise -> flags = 0x%08X
+108 event_flags::clear() %I Clear, mask = 0x%08X | Returns %result_type
+308 event_flags::clear() %I Clear -> flags = 0x%08X
+
+109 clock::clock() %I Construct
+110 clock::~clock() %I Destroy
+111 clock::sleep_for %I Sleep For ticks = %u | Returns %result_type
+112 clock::sleep_until %I Sleep Until time = 0x%08X%08X | Returns %result_type
+113 clock::wait_for %I Wait For ticks = %u | Returns %result_type
+114 adjustable_clock::sleep_until %I Sleep Until time = 0x%08X%08X | Returns %result_type
+
+115 condition_variable::condition_variable() %I Construct
+116 condition_variable::~condition_variable() %I Destroy
+117 condition_variable::signal %I Signal | Returns %result_type
+118 condition_variable::broadcast %I Broadcast | Returns %result_type
+119 condition_variable::wait %I Wait | Returns %result_type
+120 condition_variable::timed_wait %I Timed Wait timeout = %u | Returns %result_type
+
+121 timer::timer() %I Construct type = %os_timer_type
+122 timer::~timer() %I Destroy
+123 timer::start %I Start period = %u | Returns %result_type
+124 timer::stop %I Stop | Returns %result_type
+125 timer::callback %I Callback
+
+# 126
+# -----------------------------------------------------------------------------
