@@ -64,6 +64,8 @@ Revision: $Rev: 26230 $
 
 #include "SEGGER_SYSVIEW_Conf.h"
 #include "SEGGER_RTT_Conf.h"
+// xPack patch.
+#include "SEGGER_RTT_ConfDefaults.h"
 
 #ifdef __cplusplus
 extern "C" {
