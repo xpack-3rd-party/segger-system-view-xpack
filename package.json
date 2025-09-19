@@ -1,11 +1,9 @@
 {
   "name": "@xpack-segger/system-view",
-  "version": "0.1.0",
-  "description": "A source xPack with SEGGER SystemView support",
+  "version": "3.60.5-1.pre",
+  "description": "A source code library with SEGGER SystemView support",
   "main": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/xpack-3rd-party/segger-system-view-xpack.git",
@@ -40,7 +38,8 @@
     "devDependencies": {},
     "properties": {},
     "actions": {
-      "xpm-link": "xpm link"
+      "xpm-link": "xpm link",
+      "git-log": "git log --pretty='%cd * %h %s' --date=short"
     },
     "buildConfigurations": {}
   }
