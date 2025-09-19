@@ -1,9 +1,33 @@
+# An xpm/npm package with the SEGGER RTT library
+
+This project offers a convenient method for integrating the
+[SEGGER SystemView](https://github.com/SEGGERMicro//SystemView) library
+into the xpm/npm ecosystem, enabling installation as a package dependency.
+
+The open-source project is hosted on GitHub at
+[xpack-3rd-party/segger-system-view-xpack](https://github.com/xpack-3rd-party/segger-system-view-xpack).
+
+In addition to the original SEGGER project, this fork provides
+a `package.json` with npm/xpm metadata and a `CMakeLists.txt` for
+seamless CMake integration.
+
+The current version is based on **v3.60e**, dated **5 August 2025**.
+
+Changes:
+
+- copy `Global.h` from `Config` to `include`, to have it in the usual include path
+
+
+The original README content is provided below.
+
+---
+
 SystemView
 ==========
 
 SEGGER SystemView target sources, configurations, and RTOS patches.
 
-https://www.segger.com/systemview  
+https://www.segger.com/systemview
 https://wiki.segger.com/SystemView
 
 ## Included files
