@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.rb": "ruby",
+        "initializer_list": "cpp",
+        "segger_sysview_int.h": "c"
+    }
+}
