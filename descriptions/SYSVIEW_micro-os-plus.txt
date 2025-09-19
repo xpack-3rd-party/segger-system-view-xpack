@@ -32,6 +32,7 @@ NamedType os_mode_type 1=all 2=any 4=clear 5="all+clear" 6="any+clear"
 NamedType os_timer_type 0=once 1=periodic
 NamedType os_scheduler_lock 0=unlocked 1=locked
 NamedType os_scheduler_preemptive 0=cooperative 1=preemptive
+NamedType os_posix_io_types 0=unknown 1="not set" 2="char device" 4="block device" 8="tty" 16="file" 32="socket"
 
 # These are the values retuned when compiling with arm-none-eabi-gcc.
 NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVERABLE 116=ETIMEDOUT *=%u
@@ -158,10 +159,10 @@ NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVER
 
 109 clock::clock() %I Construct
 110 clock::~clock() %I Destroy
-111 clock::sleep_for %I Sleep For ticks = %u | Returns %result_type
-112 clock::sleep_until %I Sleep Until time = 0x%08X%08X | Returns %result_type
-113 clock::wait_for %I Wait For ticks = %u | Returns %result_type
-114 adjustable_clock::sleep_until %I Sleep Until time = 0x%08X%08X | Returns %result_type
+111 clock::sleep_for() %I Sleep For ticks = %u | Returns %result_type
+112 clock::sleep_until() %I Sleep Until time = 0x%08X%08X | Returns %result_type
+113 clock::wait_for() %I Wait For ticks = %u | Returns %result_type
+114 adjustable_clock::sleep_until() %I Sleep Until time = 0x%08X%08X | Returns %result_type
 
 115 condition_variable::condition_variable() %I Construct
 116 condition_variable::~condition_variable() %I Destroy
@@ -172,9 +173,44 @@ NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVER
 
 121 timer::timer() %I Construct type = %os_timer_type
 122 timer::~timer() %I Destroy
-123 timer::start %I Start period = %u | Returns %result_type
-124 timer::stop %I Stop | Returns %result_type
+123 timer::start() %I Start period = %u | Returns %result_type
+124 timer::stop() %I Stop | Returns %result_type
 125 timer::callback %I Callback
 
-# 126
+126 posix::io::vopen() path = %s
+326 posix::io::vopen() oflags = %u
+
+127 posix::io::io() %I Construct %os_posix_io_types
+128 posix::io::~io() %I Destroy
+129 posix::io::close() %I Close | Returns %d
+130 posix::io::read() %I Read buf = %p, nbyte = %u | Returns %d
+131 posix::io::write() %I Write buf = %p, nbyte = %u | Returns %d
+132 posix::io::writev() %I WriteV iov = %p, iovcnt = %u | Returns %d
+133 posix::io::vfcntl() %I Vfcntl cmd = %d | Returns %d
+134 posix::io::isatty() %I Isatty | Returns %d
+135 posix::io::fstat() %I Fstat buf = %p | Returns %d
+136 posix::io::lseek() %I Lseek offset = %d, whence = %d | Returns %d
+
+137 posix::device::device() %I Construct %os_posix_io_types
+138 posix::device::~device() %I Destroy
+139 posix::device::vopen() Vopen %s | Returns %d
+140 posix::device::vopen() %I Vopen oflags = %u
+141 posix::device::close() %I Close | Returns %d
+142 posix::device::vioctl() %I Vioctl request = %u | Returns %d
+143 posix::device::sync() %I Sync
+
+144 posix::block_device::read_block() %I Read Block buf = %p, blknum = %u, nblocks = %u | Returns %d
+145 posix::block_device::write_block() %I Write Block buf = %p, blknum = %u, nblocks = %u | Returns %d
+146 posix::block_device::vioctl() %I Vioctl request = %u | Returns %d
+
+147 posix::block_device_partition::configure() %I Configure offset = %u, nblocks = %u
+
+148 posix::file::file() %I Construct
+149 posix::file::~file() %I Destroy
+150 posix::file::close() %I Close | Returns %d
+151 posix::file::ftruncate () %I Ftruncate | Returns %d
+152 posix::file::fsync() %I Fsync | Returns %d
+153 posix::file::fstatvfs() %I Fstatvfs | Returns %d
+
+##154
 # -----------------------------------------------------------------------------
