@@ -28,6 +28,8 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 1u)
 // 34-41 reserved (2-9).
 
+#if defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+
 // 42
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_LOCK \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 10u)
@@ -35,10 +37,22 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 11u)
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_LOCKED_SET \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 12u)
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+
+// This call is used to assist interrupt::exited() to know if a reschedule
+// occurred.
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_RESCHEDULE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 13u)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_PREEMPTIVE_SET \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 14u)
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
 
 // 47
 #define OS_INTEGER_INSTRUMENTATION_ID_THREAD_CREATE \
@@ -90,6 +104,10 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_THREAD_FLAGS_CLEAR_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 332u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+
 // 63
 #define OS_INTEGER_INSTRUMENTATION_ID_MUTEX_CREATE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 33u)
@@ -122,6 +140,10 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_MUTEX_PRIO_CEILING_SET_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 340u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+
 // 73
 #define OS_INTEGER_INSTRUMENTATION_ID_SEMAPHORE_CREATE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 41u)
@@ -151,6 +173,10 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 47u)
 #define OS_INTEGER_INSTRUMENTATION_ID_SEMAPHORE_RESET_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 347u)
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
 
 // 80
 #define OS_INTEGER_INSTRUMENTATION_ID_MESSAGE_QUEUE_CREATE \
@@ -202,6 +228,10 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_MESSAGE_QUEUE_INCLUSIVE_CREATE_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 359u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+
 // 92
 #define OS_INTEGER_INSTRUMENTATION_ID_MEMORY_POOL_CREATE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 60u)
@@ -244,6 +274,10 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_MEMORY_POOL_CREATE_INCLUSIVE_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 369u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+
 // 102
 #define OS_INTEGER_INSTRUMENTATION_ID_EVENT_FLAGS_CREATE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 70u)
@@ -274,6 +308,10 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_EVENT_FLAGS_CLEAR_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 376u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+
 // 109
 #define OS_INTEGER_INSTRUMENTATION_ID_CLOCK_CREATE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 77u)
@@ -287,6 +325,10 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 81u)
 #define OS_INTEGER_INSTRUMENTATION_ID_ADJUSTABLE_CLOCK_SLEEP_UNTIL \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 82u)
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
 
 // 115
 #define OS_INTEGER_INSTRUMENTATION_ID_CONDITION_VARIABLE_CREATE \
@@ -302,6 +344,10 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_CONDITION_VARIABLE_TIMED_WAIT \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 88u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+
 // 121
 #define OS_INTEGER_INSTRUMENTATION_ID_TIMER_CREATE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 89u)
@@ -313,6 +359,10 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 92u)
 #define OS_INTEGER_INSTRUMENTATION_ID_TIMER_CALLBACK \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 93u)
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
 
 // 126
 #define OS_INTEGER_INSTRUMENTATION_ID_POSIX_VOPEN \
@@ -480,6 +530,8 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_POSIX_FILE_SYSTEM_STATVFS \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 168u)
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
+
 // 201
 
 // ----------------------------------------------------------------------------
@@ -536,11 +588,33 @@ namespace os::instrumentation
     terminated (os::rtos::thread* thread);
   } // namespace thread
 
+  namespace memory_resource
+  {
+    void
+    define (os::rtos::memory::memory_resource* heap, void* base,
+            std::size_t heap_size, std::size_t metadata_size);
+
+    static void inline __attribute__ ((__always_inline__))
+    allocated (os::rtos::memory::memory_resource* heap, void* user_data,
+               std::size_t size)
+    {
+      SEGGER_SYSVIEW_HeapAlloc (heap, user_data, size);
+    }
+
+    static void inline __attribute__ ((__always_inline__))
+    deallocated (os::rtos::memory::memory_resource* heap, void* user_data)
+    {
+      SEGGER_SYSVIEW_HeapFree (heap, user_data);
+    }
+  } // namespace memory_resource
+
   void
   exit (int exit_code);
 } // namespace os::instrumentation
 
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
 
 namespace os::instrumentation
 {
@@ -559,6 +633,12 @@ namespace os::instrumentation
     preemptive_set (bool state);
   } // namespace scheduler
 } // namespace os::instrumentation
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+
+// ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
 
 namespace os::instrumentation
 {
@@ -672,30 +752,11 @@ namespace os::instrumentation
   } // namespace thread
 } // namespace os::instrumentation
 
-namespace os::instrumentation
-{
-  namespace memory_resource
-  {
-    void
-    define (os::rtos::memory::memory_resource* heap, void* base,
-            std::size_t heap_size, std::size_t metadata_size);
-
-    static void inline __attribute__ ((__always_inline__))
-    allocated (os::rtos::memory::memory_resource* heap, void* user_data,
-               std::size_t size)
-    {
-      SEGGER_SYSVIEW_HeapAlloc (heap, user_data, size);
-    }
-
-    static void inline __attribute__ ((__always_inline__))
-    deallocated (os::rtos::memory::memory_resource* heap, void* user_data)
-    {
-      SEGGER_SYSVIEW_HeapFree (heap, user_data);
-    }
-  } // namespace memory_resource
-} // namespace os::instrumentation
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
 
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
 
 namespace os::instrumentation
 {
@@ -752,7 +813,11 @@ namespace os::instrumentation
   } // namespace mutex
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
 
 namespace os::instrumentation
 {
@@ -802,7 +867,11 @@ namespace os::instrumentation
   } // namespace semaphore
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
 
 namespace os::instrumentation
 {
@@ -898,7 +967,11 @@ namespace os::instrumentation
   } // namespace message_queue_inclusive
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
 
 namespace os::instrumentation
 {
@@ -975,7 +1048,11 @@ namespace os::instrumentation
   } // namespace memory_pool_inclusive
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
 
 namespace os::instrumentation
 {
@@ -1028,7 +1105,11 @@ namespace os::instrumentation
   } // namespace event_flags
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
 
 namespace os::instrumentation
 {
@@ -1071,7 +1152,11 @@ namespace os::instrumentation
   } // namespace adjustable_clock
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
 
 namespace os::instrumentation
 {
@@ -1117,7 +1202,11 @@ namespace os::instrumentation
   } // namespace condition_variable
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
 
 namespace os::instrumentation
 {
@@ -1155,7 +1244,11 @@ namespace os::instrumentation
   } // namespace timer
 } // namespace os::instrumentation
 
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+
 // ----------------------------------------------------------------------------
+
+#if defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
 
 namespace os::instrumentation
 {
@@ -1491,6 +1584,8 @@ namespace os::instrumentation
 
   } // namespace posix
 } // namespace os::instrumentation
+
+#endif // defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
 
 // ----------------------------------------------------------------------------
 
