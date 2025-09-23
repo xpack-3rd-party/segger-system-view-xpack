@@ -29,6 +29,8 @@
 void
 SYSVIEW_SendTaskInfo (os::rtos::thread* pThread);
 
+extern os::rtos::thread* os_idle_thread;
+
 // ----------------------------------------------------------------------------
 
 namespace os::instrumentation
@@ -83,8 +85,11 @@ namespace os::instrumentation
     void
     created (os::rtos::thread* thread)
     {
-      SEGGER_SYSVIEW_OnTaskCreate (reinterpret_cast<U32> (thread));
-      SYSVIEW_SendTaskInfo (thread);
+      if (strcmp (thread->name (), "idle") != 0)
+        {
+          SEGGER_SYSVIEW_OnTaskCreate (reinterpret_cast<U32> (thread));
+          SYSVIEW_SendTaskInfo (thread);
+        }
     }
 
     void
@@ -102,8 +107,14 @@ namespace os::instrumentation
     void
     active (os::rtos::thread* thread)
     {
-      SEGGER_SYSVIEW_OnTaskStartExec (reinterpret_cast<U32> (thread));
-      interrupt::exit_isr_to_scheduler = false;
+      if (thread == os_idle_thread)
+        {
+          SEGGER_SYSVIEW_OnIdle ();
+        }
+      else
+        {
+          SEGGER_SYSVIEW_OnTaskStartExec (reinterpret_cast<U32> (thread));
+        }
     }
 
     void
@@ -2905,7 +2916,10 @@ iterate_threads (os::rtos::thread* th, unsigned int depth)
   for (auto&& p : os::rtos::scheduler::children_threads (th))
 #pragma GCC diagnostic pop
     {
-      SYSVIEW_SendTaskInfo (&p);
+      if (strcmp (p.name (), "idle") != 0)
+        {
+          SYSVIEW_SendTaskInfo (&p);
+        }
 
       iterate_threads (&p, depth + 1);
     }
