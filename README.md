@@ -17,6 +17,34 @@ Changes:
 
 - copy `Global.h` from `Config` to `include`, to have it in the usual include path
 
+## How to use
+
+### Macros
+
+To enable instrumentation, pass the following to the compiler:
+
+- `OS_INCLUDE_INSTRUMENTATION`
+
+To enable various more specific functionality, add any of the following
+to the application configuration file (`os-app-config.h`):
+
+```c
+#define OS_INCLUDE_INSTRUMENTATION_SCHEDULER
+#define OS_INCLUDE_INSTRUMENTATION_THREAD
+#define OS_INCLUDE_INSTRUMENTATION_MUTEX
+#define OS_INCLUDE_INSTRUMENTATION_SEMAPHORE
+#define OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE
+#define OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL
+#define OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS
+#define OS_INCLUDE_INSTRUMENTATION_CLOCK
+#define OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE
+#define OS_INCLUDE_INSTRUMENTATION_TIMER
+#define OS_INCLUDE_INSTRUMENTATION_POSIX_IO
+
+#define OS_INCLUDE_INSTRUMENTATION_EXTRA_VALUES
+```
+
+---
 
 The original README content is provided below.
 

@@ -11,8 +11,8 @@
 #
 # -----------------------------------------------------------------------------
 
-# File    : SYSVIEW_micro-os-plus.txt
-# Purpose : µOS++ description file for SEGGER SystemView.
+# File    : SYSVIEW_micro-os-plus-iii.txt
+# Purpose : µOS++ III description file for SEGGER SystemView.
 #           Please copy this file to your SystemView installation folder,
 #           e.g. c:\Program Files\SEGGER\SystemView_Vnnn\Description\ or
 #           e.g. /Applications/SEGGER/SystemView_Vnnn/Description/ on macOS.
@@ -20,7 +20,7 @@
 # -----------------------------------------------------------------------------
 # Task States (reasons whe the thread was suspended).
 
-TaskState 0xFF 0=Undefined, 1=Switched Out, 2=Waiting for Clock, 3=Waiting for Thread Flags, 4=Waiting for Semaphore, 5=Waiting for Mutex, 6=Waiting for MQueue Send, 7=Waiting for MQueue Receive, 8=Waiting for MemPool, 9=Waiting for Event Flags, 10=Wait to Join, 11=Suspended by User
+TaskState 0xFF 0=Undefined, 1=Preempted, 2=Waiting for Clock, 3=Waiting for Thread Flags, 4=Waiting for Semaphore, 5=Waiting for Mutex, 6=Waiting for MQueue Send, 7=Waiting for MQueue Receive, 8=Waiting for MemPool, 9=Waiting for Event Flags, 10=Waiting to Join, 11=Suspended
 
 # -----------------------------------------------------------------------------
 # NamedTypes
@@ -64,80 +64,80 @@ NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVER
 59 thread::internal_exit() %I Exit %p
 
 60 this_thread::flags_wait() %I Wait, mask = 0x%08X, mode = %os_mode_type | Returns %result_type
-260 this_thread::flags_wait() %I Wait -> flags = 0x%08X
+360 this_thread::flags_wait() %I Wait -> flags = 0x%08X
 61 this_thread::flags_try_wait() %I Try Wait, mask = 0x%08X, mode = %os_mode_type | Returns %result_type
-261 this_thread::flags_try_wait() %I Try Wait -> flags = 0x%08X
+361 this_thread::flags_try_wait() %I Try Wait -> flags = 0x%08X
 62 this_thread::flags_timed_wait() %I Timed Wait, mask = 0x%08X, timeout = %u, mode = %os_mode_type | Returns %result_type
-262 this_thread::flags_timed_wait() %I Timed Wait -> flags = 0x%08X
+362 this_thread::flags_timed_wait() %I Timed Wait -> flags = 0x%08X
 63 thread::flags_raise() %I Raise, mask = 0x%08X | Returns %result_type
-263 thread::flags_raise() %I Raise -> flags = 0x%08X
+363 thread::flags_raise() %I Raise -> flags = 0x%08X
 64 thread::flags_clear() %I Clear, mask = 0x%08X | Returns %result_type
-264 thread::flags_clear() %I Clear -> flags = 0x%08X
+364 thread::flags_clear() %I Clear -> flags = 0x%08X
 
 65  mutex::mutex() %I Construct type = %os_mutex_type, protocol = %os_protocol_type, robustness = %os_robustness_type
 66  mutex::~mutex() %I Destroy
 67  mutex::lock() %I Lock | Returns %result_type
-267  mutex::lock() %I Lock -> prio ceiling = %u
+367  mutex::lock() %I Lock -> prio ceiling = %u
 68  mutex::try_lock() %I Try Lock | Returns %result_type
-268  mutex::try_lock() %I Try Lock -> prio ceiling = %u
+368  mutex::try_lock() %I Try Lock -> prio ceiling = %u
 69  mutex::timed_lock() %I Try Lock, timeout = %u | Returns %result_type
-269  mutex::timed_lock() %I Try Lock -> prio ceiling = %u
+369  mutex::timed_lock() %I Try Lock -> prio ceiling = %u
 70  mutex::unlock() %I Unlock | Returns %result_type
-270  mutex::unlock() %I Unlock -> prio ceiling = %u
+370  mutex::unlock() %I Unlock -> prio ceiling = %u
 71  mutex::reset() %I Reset | Returns %result_type
-271  mutex::reset() %I Reset -> prio ceiling = %u
+371  mutex::reset() %I Reset -> prio ceiling = %u
 72  mutex::prio_ceiling() %I Priority Ceiling Set %u | Returns %result_type
-272  mutex::prio_ceiling() %I Priority Ceiling Set -> prio ceiling = %u
+372  mutex::prio_ceiling() %I Priority Ceiling Set -> prio ceiling = %u
 
 73  semaphore::semaphore() %I Construct, max = %u, initial count = %u
 74  semaphore::~semaphore() %I Destroy
-274  semaphore::~semaphore() %I Destroy -> count = %u
+374  semaphore::~semaphore() %I Destroy -> count = %u
 75  semaphore::post() %I Post | Returns %result_type
-275  semaphore::post() %I Post -> count = %u
+375  semaphore::post() %I Post -> count = %u
 76  semaphore::wait() %I Wait | Returns %result_type
-276  semaphore::wait() %I Wait -> count = %u
+376  semaphore::wait() %I Wait -> count = %u
 77  semaphore::try_wait() %I Try Wait | Returns %result_type
-277  semaphore::try_wait() %I Try Wait -> count = %u
+377  semaphore::try_wait() %I Try Wait -> count = %u
 78  semaphore::timed_wait() %I Timed Wait, timeout = %u | Returns %result_type
-278  semaphore::timed_wait() %I Timed Wait -> count = %u
+378  semaphore::timed_wait() %I Timed Wait -> count = %u
 79  semaphore::reset() %I Reset | Returns %result_type
-279  semaphore::reset() %I Reset -> count = %u
+379  semaphore::reset() %I Reset -> count = %u
 
 80 message_queue::message_queue() %I Construct, capacity = %u, nbytes = %u
 81 message_queue::~message_queue() %I Destroy
-281 message_queue::~message_queue() %I Destroy -> length = %u
+381 message_queue::~message_queue() %I Destroy -> length = %u
 82 message_queue::send() %I Send, nbytes = %u, prio = %u | Returns %result_type
-282 message_queue::send() %I Send -> length = %u
+382 message_queue::send() %I Send -> length = %u
 83 message_queue::try_send() %I Try Send, nbytes = %u, prio = %u | Returns %result_type
-283 message_queue::try_send() %I Try Send -> length = %u
+383 message_queue::try_send() %I Try Send -> length = %u
 84 message_queue::timed_send() %I Timed Send, nbytes = %u, timeout = %u, prio = %u | Returns %result_type
-284 message_queue::timed_send() %I Timed Send -> length = %u
+384 message_queue::timed_send() %I Timed Send -> length = %u
 85 message_queue::receive() %I Receive, nbytes = %u | Returns %result_type
-285 message_queue::receive() %I Receive -> length = %u
+385 message_queue::receive() %I Receive -> length = %u
 86 message_queue::try_receive() %I Try Receive, nbytes = %u | Returns %result_type
-286 message_queue::try_receive() %I Try Receive -> length = %u
+386 message_queue::try_receive() %I Try Receive -> length = %u
 87 message_queue::timed_receive() %I Timed Receive, nbytes = %u, timeout = %u | Returns %result_type
-287 message_queue::timed_receive() %I Timed Receive -> length = %u
+387 message_queue::timed_receive() %I Timed Receive -> length = %u
 88 message_queue::reset() %I Reset | Returns %result_type
-288 message_queue::reset() %I Reset -> length = %u
+388 message_queue::reset() %I Reset -> length = %u
 89 message_queue_allocated::message_queue_allocated() %I Construct, capacity = %u, nbytes = %u
 90 message_queue_allocated::~message_queue_allocated() %I Destroy
-290 message_queue_allocated::~message_queue_allocated() %I Destroy -> length = %u
+390 message_queue_allocated::~message_queue_allocated() %I Destroy -> length = %u
 91 message_queue_inclusive::message_queue_inclusive() %I Construct, capacity = %u, nbytes = %u
 
 92 memory_pool::memory_pool() %I Construct, capacity = %u, block size = %u
 93 memory_pool:~memory_pool() %I Destroy
-293 memory_pool:~memory_pool() %I Destroy -> count = %u
+393 memory_pool:~memory_pool() %I Destroy -> count = %u
 94 memory_pool::alloc() %I Alloc | Returns %p
-294 memory_pool::alloc() %I Alloc -> count = %u
+394 memory_pool::alloc() %I Alloc -> count = %u
 95 memory_pool::try_alloc() %I Try Alloc | Returns %p
-295 memory_pool::try_alloc() %I Try Alloc -> count = %u
+395 memory_pool::try_alloc() %I Try Alloc -> count = %u
 96 memory_pool::timed_alloc() %I Timed Alloc, timeout = %u | Returns %p
-296 memory_pool::timed_alloc() %I Timed Alloc -> count = %u
+396 memory_pool::timed_alloc() %I Timed Alloc -> count = %u
 97 memory_pool::free() %I Free, block = %p | Returns %result_type
-297 memory_pool::free() %I Free -> count = %u
+397 memory_pool::free() %I Free -> count = %u
 98 memory_pool::reset() %I Reset | Returns %result_type
-298 memory_pool::reset() %I Reset -> count = %u
+398 memory_pool::reset() %I Reset -> count = %u
 99 memory_pool_allocated::memory_pool_allocated() %I Construct, capacity = %u, block size = %u
 100 memory_pool_allocated:~memory_pool_allocated() %I Destroy
 300 memory_pool_allocated:~memory_pool_allocated() %I Destroy -> count = %u
@@ -175,42 +175,92 @@ NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVER
 122 timer::~timer() %I Destroy
 123 timer::start() %I Start period = %u | Returns %result_type
 124 timer::stop() %I Stop | Returns %result_type
-125 timer::callback %I Callback
+125 timer::callback %I callback
 
 126 posix::io::vopen() path = %s
-326 posix::io::vopen() oflags = %u
+426 posix::io::vopen() oflags = %u
 
 127 posix::io::io() %I Construct %os_posix_io_types
 128 posix::io::~io() %I Destroy
-129 posix::io::close() %I Close | Returns %d
-130 posix::io::read() %I Read buf = %p, nbyte = %u | Returns %d
-131 posix::io::write() %I Write buf = %p, nbyte = %u | Returns %d
-132 posix::io::writev() %I WriteV iov = %p, iovcnt = %u | Returns %d
-133 posix::io::vfcntl() %I Vfcntl cmd = %d | Returns %d
-134 posix::io::isatty() %I Isatty | Returns %d
-135 posix::io::fstat() %I Fstat buf = %p | Returns %d
-136 posix::io::lseek() %I Lseek offset = %d, whence = %d | Returns %d
+129 posix::io::close() %I close | Returns %d
+130 posix::io::read() %I read buf = %p, nbyte = %u | Returns %d
+131 posix::io::write() %I write buf = %p, nbyte = %u | Returns %d
+132 posix::io::writev() %I writev iov = %p, iovcnt = %u | Returns %d
+133 posix::io::vfcntl() %I vfcntl cmd = %d | Returns %d
+134 posix::io::isatty() %I isatty | Returns %d
+135 posix::io::fstat() %I fstat buf = %p | Returns %d
+136 posix::io::lseek() %I lseek offset = %d, whence = %d | Returns %d
 
 137 posix::device::device() %I Construct %os_posix_io_types
 138 posix::device::~device() %I Destroy
-139 posix::device::vopen() Vopen %s | Returns %d
-140 posix::device::vopen() %I Vopen oflags = %u
-141 posix::device::close() %I Close | Returns %d
-142 posix::device::vioctl() %I Vioctl request = %u | Returns %d
-143 posix::device::sync() %I Sync
+139 posix::device::vopen() vopen %s | Returns %d
+140 posix::device::vopen() %I vopen oflags = %u
+141 posix::device::close() %I close | Returns %d
+142 posix::device::vioctl() %I vioctl request = %u | Returns %d
+143 posix::device::sync() %I sync
 
 144 posix::block_device::read_block() %I Read Block buf = %p, blknum = %u, nblocks = %u | Returns %d
 145 posix::block_device::write_block() %I Write Block buf = %p, blknum = %u, nblocks = %u | Returns %d
-146 posix::block_device::vioctl() %I Vioctl request = %u | Returns %d
+146 posix::block_device::vioctl() %I vioctl request = %u | Returns %d
 
-147 posix::block_device_partition::configure() %I Configure offset = %u, nblocks = %u
+147 posix::block_device_partition::configure() %I configure offset = %u, nblocks = %u
 
 148 posix::file::file() %I Construct
 149 posix::file::~file() %I Destroy
-150 posix::file::close() %I Close | Returns %d
-151 posix::file::ftruncate () %I Ftruncate | Returns %d
-152 posix::file::fsync() %I Fsync | Returns %d
-153 posix::file::fstatvfs() %I Fstatvfs | Returns %d
+150 posix::file::close() %I close | Returns %d
+151 posix::file::ftruncate () %I ftruncate | Returns %d
+152 posix::file::fsync() %I fsync | Returns %d
+153 posix::file::fstatvfs() %I fstatvfs | Returns %d
 
-##154
+154 posix::mkdir() path = %s | Returns %d
+155 posix::mkdir() mode = %u
+156 posix::rmdir() path = %s | Returns %d
+157 posix::sync() path = %s | Returns %d
+158 posix::chmod() path = %s | Returns %d
+159 posix::chmod() mode = %u
+160 posix::stat() path = %s | Returns %d
+161 posix::stat() buf = %p
+162 posix::truncate() path = %s | Returns %d
+163 posix::truncate() length = %u
+164 posix::rename() path = %s | Returns %d
+165 posix::rename() new = %s
+166 posix::unlink() path = %s | Returns %d
+167 posix::utime() path = %s | Returns %d
+168 posix::utime() times = %p
+169 posix::statvfs() path = %s | Returns %d
+170 posix::statvfs() buf = %p
+
+171 posix::opendir() dirpath = %s | Returns %p
+
+172 posix::file_system::file_system() %I Construct
+173 posix::file_system::~file_system() %I Destroy
+174 posix::file_system::vmkfs() %I vmkfs args = %u | Returns %d
+175 posix::file_system::vmount() %I vmount flags = %u | Returns %d
+176 posix::file_system::vmount() vmount path = %s
+177 posix::file_system::umount() %I umount flags = %u | Returns %d
+178 posix::file_system::vopen() %I vopen oflags = %u | Returns %d
+179 posix::file_system::vopen() vopen path = %s
+180 posix::file_system::opendir() %I opendir | Returns %p
+181 posix::file_system::opendir() opendir path = %s
+182 posix::file_system::mkdir() %I mkdir mode = %u | Returns %d
+183 posix::file_system::mkdir() mkdir path = %s
+184 posix::file_system::rmdir() %I rmdir | Returns %d
+185 posix::file_system::rmdir() rmdir path = %s
+186 posix::file_system::sync() %I sync | Returns
+187 posix::file_system::chmod() %I chmod mode = %u | Returns %d
+188 posix::file_system::chmod() chmod path = %s
+189 posix::file_system::stat() %I stat buf = %p | Returns %d
+190 posix::file_system::stat() stat path = %s
+191 posix::file_system::truncate() %I truncate length = %u | Returns %d
+192 posix::file_system::truncate() Truncate path = %s
+193 posix::file_system::rename() %I rename | Returns %d
+194 posix::file_system::rename() Existing = %s
+195 posix::file_system::rename() New = %s
+196 posix::file_system::unlink() %I unlink | Returns %d
+197 posix::file_system::unlink() path = %s
+198 posix::file_system::utime() %I utime times = %p | Returns %d
+199 posix::file_system::utime() path = %s
+200 posix::file_system::statvfs() %I statvfs buf = %p | Returns %d
+
+##201
 # -----------------------------------------------------------------------------

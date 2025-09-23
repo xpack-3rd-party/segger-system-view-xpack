@@ -47,7 +47,7 @@ target_include_directories(segger-system-view-interface INTERFACE
 
 target_sources(segger-system-view-interface INTERFACE
   "SYSVIEW/SEGGER_SYSVIEW.c"
-  "src/SEGGER_SYSVIEW_micro-os-plus-cortex-m.cpp"
+  "src/instrumentation-sysview-micro-os-plus-iii.cpp"
 )
 
 target_compile_definitions(segger-system-view-interface INTERFACE
