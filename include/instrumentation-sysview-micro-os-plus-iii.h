@@ -37,16 +37,8 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 11u)
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_LOCKED_SET \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 12u)
-
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
-
-// This call is used to assist interrupt::exited() to know if a reschedule
-// occurred.
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_RESCHEDULE \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 13u)
-
-#if defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
-
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_PREEMPTIVE_SET \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 14u)
 
@@ -560,12 +552,6 @@ namespace os::instrumentation
     exited (void);
   } // namespace interrupt
 
-  namespace scheduler
-  {
-    void
-    reschedule (void);
-  } // namespace scheduler
-
   // Mandatory functions to record thread activity.
   namespace thread
   {
@@ -631,6 +617,9 @@ namespace os::instrumentation
 
     void
     preemptive_set (bool state);
+
+    void
+    reschedule (void);
   } // namespace scheduler
 } // namespace os::instrumentation
 

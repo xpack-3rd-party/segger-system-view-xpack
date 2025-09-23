@@ -53,8 +53,6 @@ namespace os::instrumentation
 
   namespace interrupt
   {
-    static bool exit_isr_to_scheduler = false;
-
     void
     entered (void)
     {
@@ -69,7 +67,7 @@ namespace os::instrumentation
       // Since the PendSV bit is write only, it is not easy to determine
       // if the scheduler is invoked without additional logic.
       // This flag is set on reschedule() and cleared in active()
-      if (exit_isr_to_scheduler)
+      if (os::rtos::scheduler::is_reschedule_pending)
         {
           SEGGER_SYSVIEW_RecordExitISRToScheduler ();
         }
@@ -79,18 +77,6 @@ namespace os::instrumentation
         }
     }
   } // namespace interrupt
-
-  namespace scheduler
-  {
-    // Must always be called, otherwise the ISR logic fails.
-    void
-    reschedule (void)
-    {
-      SEGGER_SYSVIEW_RecordVoid (
-          OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_RESCHEDULE);
-      interrupt::exit_isr_to_scheduler = true;
-    }
-  } // namespace scheduler
 
   namespace thread
   {
@@ -192,6 +178,13 @@ namespace os::instrumentation
       SEGGER_SYSVIEW_RecordU32 (
           OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_PREEMPTIVE_SET,
           static_cast<U32> (state));
+    }
+
+    void
+    reschedule (void)
+    {
+      SEGGER_SYSVIEW_RecordVoid (
+          OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_RESCHEDULE);
     }
   } // namespace scheduler
 } // namespace os::instrumentation
@@ -2876,7 +2869,7 @@ os_instrumentation_interrupt_exited (void)
   // Since the PendSV bit is write only, it is not easy to determine
   // if the scheduler is invoked without additional logic.
   // This flag is set on reschedule() and cleared in active()
-  if (os::instrumentation::interrupt::exit_isr_to_scheduler)
+  if (os::rtos::scheduler::is_reschedule_pending)
     {
       SEGGER_SYSVIEW_RecordExitISRToScheduler ();
     }
