@@ -2931,7 +2931,7 @@ SYSVIEW_SendTaskInfo (os::rtos::thread* pThread)
           TaskInfo)); // Fill all elements with 0 to allow extending the
                       // structure in future version without breaking the code
   TaskInfo.TaskID = reinterpret_cast<U32> (pThread);
-  TaskInfo.sName = pThread->name ();
+  TaskInfo.sName = pThread->has_name () ? pThread->name () : nullptr;
   TaskInfo.Prio = pThread->priority ();
   TaskInfo.StackBase = reinterpret_cast<U32> (pThread->stack ().bottom ());
   TaskInfo.StackSize = pThread->stack ().size ();
