@@ -24,7 +24,7 @@ Changes:
 The easiest method to install the library into a project is via `xpm`:
 
 ```sh
-xpm install github:xpack-3rd-party/segger-system-view-xpack#v3.60.5-1
+xpm install github:xpack-3rd-party/segger-system-view-xpack#v3.60.5-2
 ```
 
 The SEGGER SystemView library also requires SEGGER RTT:
