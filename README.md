@@ -75,6 +75,16 @@ to the application configuration file (`os-app-config.h`):
 
 - `OS_DISABLE_INSTRUMENTATION_AUTOSTART`
 
+### The SystemView description file
+
+SystemView requires a file with the definitions of the messages associated
+with the trace events to be present in the installed
+`SEGGER/SystemView_Vnnn/Description` folder.
+
+Either copy or, even better, make a link to the
+`descriptions/SYSVIEW_micro-os-plus-iii.txt` file available in the
+location where this library is installed.
+
 ### SystemView
 
 For Cortex-M targets, SystemView must be configured to use SWD. The default
@@ -94,7 +104,7 @@ new events received from the target.
 ## Know limitations
 
 - currently only Cortex-M devices are supported
-- support for Cortex-M0/M0+ is planned to be added in a later release
+- support for Cortex-M0/M0+ will be added in a later release
 
 ---
 
