@@ -28,7 +28,7 @@
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 1u)
 // 34-41 reserved (2-9).
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+#if defined(OS_ENABLE_INSTRUMENTATION_SCHEDULER)
 
 // 42
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_LOCK \
@@ -42,9 +42,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_SCHEDULER_PREEMPTIVE_SET \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 14u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_SCHEDULER)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
+#if defined(OS_ENABLE_INSTRUMENTATION_THREAD)
 
 // 47
 #define OS_INTEGER_INSTRUMENTATION_ID_THREAD_CREATE \
@@ -96,9 +96,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_THREAD_FLAGS_CLEAR_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 332u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_THREAD)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+#if defined(OS_ENABLE_INSTRUMENTATION_MUTEX)
 
 // 63
 #define OS_INTEGER_INSTRUMENTATION_ID_MUTEX_CREATE \
@@ -132,9 +132,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_MUTEX_PRIO_CEILING_SET_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 340u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_MUTEX)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+#if defined(OS_ENABLE_INSTRUMENTATION_SEMAPHORE)
 
 // 73
 #define OS_INTEGER_INSTRUMENTATION_ID_SEMAPHORE_CREATE \
@@ -166,9 +166,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_SEMAPHORE_RESET_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 347u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_SEMAPHORE)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
+#if defined(OS_ENABLE_INSTRUMENTATION_MESSAGE_QUEUE)
 
 // 80
 #define OS_INTEGER_INSTRUMENTATION_ID_MESSAGE_QUEUE_CREATE \
@@ -220,9 +220,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_MESSAGE_QUEUE_INCLUSIVE_CREATE_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 359u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_MESSAGE_QUEUE)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+#if defined(OS_ENABLE_INSTRUMENTATION_MEMORY_POOL)
 
 // 92
 #define OS_INTEGER_INSTRUMENTATION_ID_MEMORY_POOL_CREATE \
@@ -266,9 +266,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_MEMORY_POOL_CREATE_INCLUSIVE_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 369u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_MEMORY_POOL)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+#if defined(OS_ENABLE_INSTRUMENTATION_EVENT_FLAGS)
 
 // 102
 #define OS_INTEGER_INSTRUMENTATION_ID_EVENT_FLAGS_CREATE \
@@ -300,9 +300,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_EVENT_FLAGS_CLEAR_VALUES \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 376u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_EVENT_FLAGS)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+#if defined(OS_ENABLE_INSTRUMENTATION_CLOCK)
 
 // 109
 #define OS_INTEGER_INSTRUMENTATION_ID_CLOCK_CREATE \
@@ -318,9 +318,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_ADJUSTABLE_CLOCK_SLEEP_UNTIL \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 82u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_CLOCK)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
+#if defined(OS_ENABLE_INSTRUMENTATION_CONDITION_VARIABLE)
 
 // 115
 #define OS_INTEGER_INSTRUMENTATION_ID_CONDITION_VARIABLE_CREATE \
@@ -336,9 +336,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_CONDITION_VARIABLE_TIMED_WAIT \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 88u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_CONDITION_VARIABLE)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+#if defined(OS_ENABLE_INSTRUMENTATION_TIMER)
 
 // 121
 #define OS_INTEGER_INSTRUMENTATION_ID_TIMER_CREATE \
@@ -352,9 +352,9 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_TIMER_CALLBACK \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 93u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_TIMER)
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
+#if defined(OS_ENABLE_INSTRUMENTATION_POSIX_IO)
 
 // 126
 #define OS_INTEGER_INSTRUMENTATION_ID_POSIX_VOPEN \
@@ -522,7 +522,7 @@
 #define OS_INTEGER_INSTRUMENTATION_ID_POSIX_FILE_SYSTEM_STATVFS \
   (OS_INTEGER_INSTRUMENTATION_ID_BASE + 168u)
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_POSIX_IO)
 
 // 201
 
@@ -600,7 +600,7 @@ namespace os::instrumentation
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+#if defined(OS_ENABLE_INSTRUMENTATION_SCHEDULER)
 
 namespace os::instrumentation
 {
@@ -623,11 +623,11 @@ namespace os::instrumentation
   } // namespace scheduler
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_SCHEDULER)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_SCHEDULER)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
+#if defined(OS_ENABLE_INSTRUMENTATION_THREAD)
 
 namespace os::instrumentation
 {
@@ -741,11 +741,11 @@ namespace os::instrumentation
   } // namespace thread
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_THREAD)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_THREAD)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+#if defined(OS_ENABLE_INSTRUMENTATION_MUTEX)
 
 namespace os::instrumentation
 {
@@ -802,11 +802,11 @@ namespace os::instrumentation
   } // namespace mutex
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_MUTEX)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_MUTEX)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+#if defined(OS_ENABLE_INSTRUMENTATION_SEMAPHORE)
 
 namespace os::instrumentation
 {
@@ -856,11 +856,11 @@ namespace os::instrumentation
   } // namespace semaphore
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_SEMAPHORE)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_SEMAPHORE)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
+#if defined(OS_ENABLE_INSTRUMENTATION_MESSAGE_QUEUE)
 
 namespace os::instrumentation
 {
@@ -956,11 +956,11 @@ namespace os::instrumentation
   } // namespace message_queue_inclusive
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_MESSAGE_QUEUE)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_MESSAGE_QUEUE)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+#if defined(OS_ENABLE_INSTRUMENTATION_MEMORY_POOL)
 
 namespace os::instrumentation
 {
@@ -1037,11 +1037,11 @@ namespace os::instrumentation
   } // namespace memory_pool_inclusive
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_MEMORY_POOL)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_MEMORY_POOL)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+#if defined(OS_ENABLE_INSTRUMENTATION_EVENT_FLAGS)
 
 namespace os::instrumentation
 {
@@ -1094,11 +1094,11 @@ namespace os::instrumentation
   } // namespace event_flags
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_EVENT_FLAGS)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_EVENT_FLAGS)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+#if defined(OS_ENABLE_INSTRUMENTATION_CLOCK)
 
 namespace os::instrumentation
 {
@@ -1141,11 +1141,11 @@ namespace os::instrumentation
   } // namespace adjustable_clock
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_CLOCK)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_CLOCK)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
+#if defined(OS_ENABLE_INSTRUMENTATION_CONDITION_VARIABLE)
 
 namespace os::instrumentation
 {
@@ -1191,11 +1191,11 @@ namespace os::instrumentation
   } // namespace condition_variable
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_CONDITION_VARIABLE)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_CONDITION_VARIABLE)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+#if defined(OS_ENABLE_INSTRUMENTATION_TIMER)
 
 namespace os::instrumentation
 {
@@ -1233,11 +1233,11 @@ namespace os::instrumentation
   } // namespace timer
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_TIMER)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_TIMER)
 
 // ----------------------------------------------------------------------------
 
-#if defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
+#if defined(OS_ENABLE_INSTRUMENTATION_POSIX_IO)
 
 namespace os::instrumentation
 {
@@ -1574,7 +1574,7 @@ namespace os::instrumentation
   } // namespace posix
 } // namespace os::instrumentation
 
-#endif // defined(OS_INCLUDE_INSTRUMENTATION_POSIX_IO)
+#endif // defined(OS_ENABLE_INSTRUMENTATION_POSIX_IO)
 
 // ----------------------------------------------------------------------------
 
