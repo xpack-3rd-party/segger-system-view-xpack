@@ -19,6 +19,19 @@ Changes:
 
 ## How to use
 
+### Install
+
+To add the package to a project:
+
+```sh
+xpm install github:xpack-3rd-party/segger-system-view-xpack#v3.60.5-1
+```
+
+If the project uses CMake, include the `CMakeLists.txt` and the `segger::system-view` to the build.
+
+Otherwise manually add the include folders and the source files mentioned in
+the `CMakeLists.txt` to the build configuration.
+
 ### Macros
 
 To enable instrumentation, pass the following to the compiler:
