@@ -21,13 +21,29 @@ Changes:
 
 ### Install
 
-To add the package to a project:
+The easiest method to install the library into a project is via `xpm`:
 
 ```sh
 xpm install github:xpack-3rd-party/segger-system-view-xpack#v3.60.5-1
 ```
 
-If the project uses CMake, include the `CMakeLists.txt` and the `segger::system-view` to the build.
+The SEGGER SystemView library also requires SEGGER RTT:
+
+```sh
+xpm install github:xpack-3rd-party/segger-rtt-xpack#v8.56.1-2
+```
+
+### Template files
+
+In the `templates` folder there are two header files and one source file;
+copy them into the project, and possibly update them.
+
+### CMake
+
+If the project uses CMake, include the `CMakeLists.txt` and the
+`segger::system-view` to the build.
+
+### Other builders
 
 Otherwise manually add the include folders and the source files mentioned in
 the `CMakeLists.txt` to the build configuration.
@@ -58,6 +74,27 @@ to the application configuration file (`os-app-config.h`):
 ```
 
 - `OS_DISABLE_INSTRUMENTATION_AUTOSTART`
+
+### SystemView
+
+For Cortex-M targets, SystemView must be configured to use SWD. The default
+speed (4 MHz) should be fine for regular applications.
+
+The tracing session usually runs in tandem with a debugger (like Ozone), that
+must be configured to the same 4 MHz speed.
+
+Flash the binary to the target and place a breakpoint at `_start()`.
+
+While execution is halted at this point, start recording on SystemView.
+
+Resume execution in the debugger possibly placing breakpoints in the places
+of interest. The SystemView timeline window will be updated live with the
+new events received from the target.
+
+## Know limitations
+
+- currently only Cortex-M devices are supported
+- support for Cortex-M0/M0+ is planned to be added in a later release
 
 ---
 
