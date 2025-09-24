@@ -1,4 +1,4 @@
-# An xpm/npm package with the SEGGER RTT library
+# An xpm/npm package with the SEGGER SystemView library
 
 This project offers a convenient method for integrating the
 [SEGGER SystemView](https://github.com/SEGGERMicro//SystemView) library
@@ -35,7 +35,7 @@ xpm install github:xpack-3rd-party/segger-rtt-xpack#v8.56.1-2
 
 ### Template files
 
-In the `templates` folder there are two header files and one source file;
+In the `templates` folder there is a header file and a source file;
 copy them into the project, and possibly update them.
 
 ### CMake
