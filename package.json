@@ -1,6 +1,6 @@
 {
   "name": "@xpack-segger/system-view",
-  "version": "3.60.5-2.pre",
+  "version": "3.60.5-2",
   "description": "A source code library with SEGGER SystemView support",
   "main": "",
   "scripts": {
