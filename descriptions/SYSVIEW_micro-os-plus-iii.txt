@@ -238,7 +238,7 @@ NamedType result_type 0=ok 1=EPERM 4=EINTR 11=EWOULDBLOCK/EAGAIN 141=ENOTRECOVER
 175 posix::file_system::vmount() %I vmount flags = %u | Returns %d
 176 posix::file_system::vmount() vmount path = %s
 177 posix::file_system::umount() %I umount flags = %u | Returns %d
-178 posix::file_system::vopen() %I vopen oflags = %u | Returns %d
+178 posix::file_system::vopen() %I vopen oflags = %u | Returns %p
 179 posix::file_system::vopen() vopen path = %s
 180 posix::file_system::opendir() %I opendir | Returns %p
 181 posix::file_system::opendir() opendir path = %s
