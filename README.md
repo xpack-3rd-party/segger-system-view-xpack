@@ -16,6 +16,8 @@ The current version is based on **v3.60e**, dated **5 August 2025**.
 Changes:
 
 - copy `Global.h` from `Config` to `include`, to have it in the usual include path
+- warnings were silenced in `SYSVIEW/SEGGER_SYSVIEW.c`
+- the `templates/include/SEGGER_SYSVIEW_Conf.h` and `templates/src/instrumentation-config.cpp` were added; copy them to your project.
 
 ## How to use
 
